@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Git hook that spell checks your commit messages (after each commits)
+# Idea from http://wadmiraal.net/lore/2014/07/14/how-git-hooks-made-me-a-better-and-more-lovable-developer/
+
+ASPELL=$(which aspell)
+if [ $? -ne 0 ]; then
+    echo "Aspell not installed - unable to check spelling" >&2
+    exit
+else
+    WORDS=$($ASPELL list -l en < "$1")
+fi
+if [ -n "$WORDS" ]; then
+    echo -e "\e[1;33m\tPossible spelling errors found in commit message. Use git commit --amend to change the message.\n\tPossible mispelled words: " $WORDS "\e[0m" >&2
+fi
