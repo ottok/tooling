@@ -1,0 +1,22 @@
+## 
+# Custom bash history settings
+##
+
+# Default bash history is only 1000 lines. With modern computers
+# bash history should be magnitudes bigger. It would be best
+# if the bash history never forgot anything
+HISTTIMEFORMAT="[%F %T] "        # time entry for .bash_history
+HISTSIZE=10000000                # big big history
+HISTFILESIZE=10000000            # big big history
+HISTCONTROL=ignoredups:ignorespace
+
+# By default bash history is written when you exit the shell, which
+# in multi-terminal situations make you loose commands typed earlier
+# but in different windows. So instead of default overwrite, rather
+# append to history
+shopt -s histappend              
+
+# Make sure history is saved and refreshed after each commend. This
+# way for example Ctrl+R will always search your global history
+# not just what was written in the same session earlier
+PROMPT_COMMAND="history -a; history -c; history -r;$PROMPT_COMMAND"
